@@ -1,3 +1,4 @@
+ESSAI !
 pymodaq_plugins_rohdeschwarz (Rohde & Schwarz Instruments)
 ##########################################
 
