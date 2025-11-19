@@ -1,4 +1,4 @@
-ESSAI !
+ESSAI ! breaking the test
 pymodaq_plugins_rohdeschwarz (Rohde & Schwarz Instruments)
 ##########################################
 
