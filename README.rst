@@ -1,5 +1,5 @@
-pymodaq_plugins_rohdeschwarz (Rohde and Schwarz Instruments)
-##########################################
+pymodaq_plugins_rohdeschwarz (Rohde & Schwarz Instruments)
+############################################################
 
 .. the following must be adapted to your developped package, links to pypi, github  description...
 
@@ -15,7 +15,7 @@ pymodaq_plugins_rohdeschwarz (Rohde and Schwarz Instruments)
    :target: https://github.com/PyMoDAQ/pymodaq_plugins_thorlabs
    :alt: Publication Status
 
-Set of PyMoDAQ plugins for instruments from Rohde and Schwarz.
+Set of PyMoDAQ plugins for instruments from Rohde & Schwarz.
 
 
 Authors
