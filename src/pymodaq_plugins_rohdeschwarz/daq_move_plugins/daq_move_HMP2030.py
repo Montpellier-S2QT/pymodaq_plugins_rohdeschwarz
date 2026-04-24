@@ -116,13 +116,15 @@ class DAQ_Move_HMP2030(DAQ_Move_base):
         ----------
         value: (float) value of the absolute target positioning
         """
-        value = self.check_bound(value)  # if user checked bounds, the defined bounds are applied here
+        llvalue = self.check_bound(value)  # if user checked bounds, the defined bounds are applied here
         self.target_value = value
         value = self.set_position_with_scaling(value)  # apply scaling if the user specified one
-        in_range = self.controller.set_control_value(value, channel=self.settings.child("channel").value(),
+        in_range = self.controler.set_control_value(value, channel=self.settings.child("channel").value(),
                                                     ctrparam="VOLT")
         if not in_range:
             self.stop_motion()
+
+        self.controller._set_on(channel=self.settings.child("channel").value())
 
     def move_rel(self, value: DataActuator):
         """ Move the actuator to the relative target actuator value defined by value
@@ -151,8 +153,7 @@ class DAQ_Move_HMP2030(DAQ_Move_base):
     def stop_motion(self):
         """Stop the actuator and emits move_done signal"""
 
-        ## TODO for your custom plugin
-        self.emit_status(ThreadCommand('Move failed'))
+        self.controller._set_off(channel=self.settings.child("channel").value())
 
 
 if __name__ == '__main__':

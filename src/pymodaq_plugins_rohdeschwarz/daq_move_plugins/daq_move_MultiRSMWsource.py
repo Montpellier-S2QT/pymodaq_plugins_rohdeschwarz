@@ -135,6 +135,7 @@ class DAQ_Move_MultiRSMWsource(DAQ_Move_base):
             self.emit_status(ThreadCommand('Update_Status', [f'CW frequency set to {freq_to_set:.3f~P}']))
         elif self.axis_name == 'Power' :
             pow_to_set = Q_(value.value(), ureg.dBm)
+            self.controller.get_status()
             self.controller.set_cw_params(power=pow_to_set)
             self.controller.cw_on()
             self.emit_status(ThreadCommand('Update_Status', [f'CW power set to {pow_to_set:.3f~P}']))

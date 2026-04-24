@@ -12,16 +12,17 @@ import pyvisa as visa
 import numpy as np
 import time
 # shared UnitRegistry from pint initialized in __init__.py
-from pymodaq_plugins_rohdeschwarz import ureg, Q_ 
+from pymodaq_plugins_rohdeschwarz import ureg, Q_
 
 class MWsource:
 
     def __init__(self):
         super().__init__()
-        
         self._model = ""
         self._address = ""
         self._timeout = 1e4 * ureg.millisecond
+        self.is_talking = False
+
 
     
     def get_address(self):
@@ -113,11 +114,15 @@ class MWsource:
         command_str: str
             the command to send to the device
         """
+        while self.is_talking:
+            time.sleep(0.2)
+        self.is_talking = True
         self._connection.write(command_str)
         self._connection.write("*WAI")
         while int(float(self._connection.query("*OPC?"))) != 1:
             time.sleep(0.2)
-        return
+        self.is_talking = False
+
 
 
     def off(self):
@@ -144,10 +149,14 @@ class MWsource:
         str: either "cw", "list" or "sweep"
         bool: True if MW is on, False otherwise
         """
+        while self.is_talking:
+            time.sleep(0.2)
+        self.is_talking = True
         is_running = bool(int(float(self._connection.query("OUTP:STAT?"))))
         mode = self._connection.query(":FREQ:MODE?").strip("\n").lower()
         if mode == "swe":
             mode = "sweep"
+        self.is_talking = False
         return mode, is_running
 
 
@@ -243,23 +252,19 @@ class MWsource:
         if is_running:
             self.off()
 
-        # Activate CW mode
         if mode != "cw":
             self._command_wait(":FREQ:MODE CW")
 
-        # Set CW frequency if provided
         if frequency is not None:
             self._command_wait(":FREQ {:.6f~P}".format(
                 frequency.to(ureg.GHz)))
 
-        # Set CW power if provided
         if power is not None:
             self._command_wait(":POW {:.2f}".format(
                 power.to(ureg.dBm).magnitude))
 
-        # Return actually set values
         mode, is_running = self.get_status()
-        return mode, self.get_frequency(), self.get_power()
+        return mode#, self.get_frequency(), self.get_power()
 
     
     def list_on(self):
