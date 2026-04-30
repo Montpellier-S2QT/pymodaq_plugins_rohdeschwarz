@@ -22,14 +22,8 @@ Authors
 =======
 
 * Aurore Finco  (aurore.finco@umontpellier.fr)
+* Roméo Beignon (romeo.beignon@umontpellier.fr)
 
-.. if needed use this field
-
-    Contributors
-    ============
-
-    * First Contributor
-    * Other Contributors
 
 Instruments
 ===========
@@ -40,4 +34,6 @@ Actuators
 +++++++++
 
 * RSMWsource: frequency control of microwave sources from SMA and SMB series
+* Power supply HMP2030: control of the tension for a given channel
+* MW powermeter NRP18E and NRP8E: tested only for NRP18E
 
